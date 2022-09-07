@@ -3,35 +3,41 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
 import md5 from "md5";
+import { useAlert } from "react-alert";
 import CheckResult from "../pages/CheckResult";
 import Modal from "../utils/Modal";
 
 import banner from "../images/banner.png";
 
 function HeroHome() {
-  const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [url, setUrl] = useState("");
   const navigate = useNavigate();
+  const alert = useAlert();
 
   const checkUrl = async (event) => {
     event.preventDefault();
     if (url === "") {
-      alert("Insira o URL de um site para verificar se é confiável.");
+      alert.error("Insira o URL de um site para verificar se é confiável.");
+      return;
     } else if (url.includes(",") || !url.includes(".")) {
-      alert("Insira um URL de site válido.");
+      alert.error("Insira um URL de site válido.");
+      return;
     } else {
       const clientId = md5(url).slice(0, 24);
-      const response = await axios
-        .post("https://api.reduza.com.br/siteconfiavel/trustchecks", {
-          bypassCache: false,
-          clientSideId: clientId,
-          numberOfAttempts: 0,
-          url: url,
-        })
-        .catch(() => alert("Insira um URL de site válido."));
-      console.log(response);
-      console.log(response.data);
-      navigate(`/site/${clientId}`);
+      try {
+        const response = await axios.post(
+          "https://api.reduza.com.br/siteconfiavel/trustchecks",
+          {
+            bypassCache: false,
+            clientSideId: clientId,
+            numberOfAttempts: 0,
+            url: url,
+          }
+        );
+        navigate(`/site/${clientId}`);
+      } catch (err) {
+        alert.error("Insira um URL de site válido.");
+      }
     }
   };
 

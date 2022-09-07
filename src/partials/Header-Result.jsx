@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Dropdown from '../utils/Dropdown';
-import Transition from '../utils/Transition';
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Dropdown from "../utils/Dropdown";
+import Transition from "../utils/Transition";
 import logo from "/src/images/logo.png";
 
 function Header() {
-
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const trigger = useRef(null);
@@ -15,11 +14,16 @@ function Header() {
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (!mobileNav.current || !trigger.current) return;
-      if (!mobileNavOpen || mobileNav.current.contains(target) || trigger.current.contains(target)) return;
+      if (
+        !mobileNavOpen ||
+        mobileNav.current.contains(target) ||
+        trigger.current.contains(target)
+      )
+        return;
       setMobileNavOpen(false);
     };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
   });
 
   // close the mobile menu if the esc key is pressed
@@ -28,26 +32,26 @@ function Header() {
       if (!mobileNavOpen || keyCode !== 27) return;
       setMobileNavOpen(false);
     };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
+    document.addEventListener("keydown", keyHandler);
+    return () => document.removeEventListener("keydown", keyHandler);
   });
 
   // Handle light modes
   const [darkMode, setDarkMode] = useState(() => {
-    const dark = localStorage.getItem('dark-mode');
+    const dark = localStorage.getItem("dark-mode");
     if (dark === null) {
       return true;
     } else {
-      return dark === 'true';
+      return dark === "true";
     }
   });
 
   useEffect(() => {
-    localStorage.setItem('dark-mode', darkMode)
+    localStorage.setItem("dark-mode", darkMode);
     if (darkMode) {
-      document.documentElement.classList.add('dark')
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
 
@@ -64,86 +68,13 @@ function Header() {
             </Link>
           </div>
 
-          {/* Desktop navigation */}
-          <nav className="hidden md:flex">
-            {/* Desktop lights switch */}
-            <div className="form-switch flex flex-col justify-center ml-3">
-              <input
-                type="checkbox"
-                name="light-switch"
-                id="light-switch-desktop"
-                className="light-switch sr-only"
-                checked={darkMode}
-                onChange={() => setDarkMode(!darkMode)}
-              />
-              <label className="relative" htmlFor="light-switch-desktop">
-                <span
-                  className="relative bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-700 shadow-sm z-10"
-                  aria-hidden="true"
-                ></span>
-                <svg className="absolute inset-0" width="44" height="24" viewBox="0 0 44 24" xmlns="http://www.w3.org/2000/svg">
-                  <g className="fill-current text-white" fillRule="nonzero" opacity=".88">
-                    <path d="M32 8a.5.5 0 00.5-.5v-1a.5.5 0 10-1 0v1a.5.5 0 00.5.5zM35.182 9.318a.5.5 0 00.354-.147l.707-.707a.5.5 0 00-.707-.707l-.707.707a.5.5 0 00.353.854zM37.5 11.5h-1a.5.5 0 100 1h1a.5.5 0 100-1zM35.536 14.829a.5.5 0 00-.707.707l.707.707a.5.5 0 00.707-.707l-.707-.707zM32 16a.5.5 0 00-.5.5v1a.5.5 0 101 0v-1a.5.5 0 00-.5-.5zM28.464 14.829l-.707.707a.5.5 0 00.707.707l.707-.707a.5.5 0 00-.707-.707zM28 12a.5.5 0 00-.5-.5h-1a.5.5 0 100 1h1a.5.5 0 00.5-.5zM28.464 9.171a.5.5 0 00.707-.707l-.707-.707a.5.5 0 00-.707.707l.707.707z" />
-                    <circle cx="32" cy="12" r="3" />
-                    <circle fillOpacity=".4" cx="12" cy="12" r="6" />
-                    <circle fillOpacity=".88" cx="12" cy="12" r="3" />
-                  </g>
-                </svg>
-                <span className="sr-only">Switch to light / dark version</span>
-              </label>
-            </div>
-
-            {/* Desktop menu links */}
-            <ul className="flex grow flex-wrap items-center font-medium">
-              <li>
-                <Link
-                  to="/about"
-                  className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 px-5 py-2 flex items-center transition duration-150 ease-in-out"
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/blog"
-                  className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 px-5 py-2 flex items-center transition duration-150 ease-in-out"
-                >
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/testimonials"
-                  className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 px-5 py-2 flex items-center transition duration-150 ease-in-out"
-                >
-                  Testimonials
-                </Link>
-              </li>
-              {/* 1st level: hover */}
-              <Dropdown title="Resources">
-                {/* 2nd level: hover */}
-                <li>
-                  <Link
-                    to="/help"
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-teal-500 dark:hover:text-teal-500 flex py-2 px-4 leading-tight"
-                  >
-                    Help center
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/404"
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-teal-500 dark:hover:text-teal-500 flex py-2 px-4 leading-tight"
-                  >
-                    404
-                  </Link>
-                </li>
-              </Dropdown>
-            </ul>
-          </nav>
-
-          {/* Mobile menu */}
-          <div className="inline-flex md:hidden">
+          <div className="inline-flex">
+            <Link
+              to="/"
+              className="flex font-bold py-1 px-4 rounded-full text-teal-500 hover:text-gray-900 border-4 border-teal-500 hover:bg-teal-500 mr-6"
+            >
+              Verificar novo site
+            </Link>
             {/* Mobile lights switch */}
             <div className="form-switch flex flex-col justify-center mr-6 -mt-0.5">
               <input
@@ -159,8 +90,18 @@ function Header() {
                   className="relative bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-700 shadow-sm z-10"
                   aria-hidden="true"
                 ></span>
-                <svg className="absolute inset-0" width="44" height="24" viewBox="0 0 44 24" xmlns="http://www.w3.org/2000/svg">
-                  <g className="fill-current text-white" fillRule="nonzero" opacity=".88">
+                <svg
+                  className="absolute inset-0"
+                  width="44"
+                  height="24"
+                  viewBox="0 0 44 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g
+                    className="fill-current text-white"
+                    fillRule="nonzero"
+                    opacity=".88"
+                  >
                     <path d="M32 8a.5.5 0 00.5-.5v-1a.5.5 0 10-1 0v1a.5.5 0 00.5.5zM35.182 9.318a.5.5 0 00.354-.147l.707-.707a.5.5 0 00-.707-.707l-.707.707a.5.5 0 00.353.854zM37.5 11.5h-1a.5.5 0 100 1h1a.5.5 0 100-1zM35.536 14.829a.5.5 0 00-.707.707l.707.707a.5.5 0 00.707-.707l-.707-.707zM32 16a.5.5 0 00-.5.5v1a.5.5 0 101 0v-1a.5.5 0 00-.5-.5zM28.464 14.829l-.707.707a.5.5 0 00.707.707l.707-.707a.5.5 0 00-.707-.707zM28 12a.5.5 0 00-.5-.5h-1a.5.5 0 100 1h1a.5.5 0 00.5-.5zM28.464 9.171a.5.5 0 00.707-.707l-.707-.707a.5.5 0 00-.707.707l.707.707z" />
                     <circle cx="32" cy="12" r="3" />
                     <circle fillOpacity=".4" cx="12" cy="12" r="6" />
@@ -174,7 +115,7 @@ function Header() {
             {/* Hamburger button */}
             <button
               ref={trigger}
-              className={`hamburger ${mobileNavOpen && 'active'}`}
+              className={`hamburger ${mobileNavOpen && "active"}`}
               aria-controls="mobile-nav"
               aria-expanded={mobileNavOpen}
               onClick={() => setMobileNavOpen(!mobileNavOpen)}
@@ -210,29 +151,43 @@ function Header() {
               >
                 <div className="py-6 pr-4 pl-20">
                   {/* Logo */}
-                  <Link to="/" className="flex mb-4" aria-label="Cruip">
-                    <img className="h-7 mt-2 mr-1" src="/src/images/logo.png" alt="Logo" />
-                    <div className="text-[30px] text-teal-500 font-extrabold">Confiável</div>
+                  <Link to="/" className="inline-block mb-4" aria-label="Cruip">
+                    <img
+                      className="h-8"
+                      src="/src/images/logo.png"
+                      alt="Logo"
+                    />
                   </Link>
                   {/* Links */}
                   <ul>
                     <li>
-                      <Link to="/about" className="flex text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 py-2">
+                      <Link
+                        to="/about"
+                        className="flex text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 py-2"
+                      >
                         About
                       </Link>
                     </li>
                     <li>
-                      <Link to="/blog" className="flex text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 py-2">
+                      <Link
+                        to="/blog"
+                        className="flex text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 py-2"
+                      >
                         Blog
                       </Link>
                     </li>
                     <li>
-                      <Link to="/testimonials" className="flex text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 py-2">
+                      <Link
+                        to="/testimonials"
+                        className="flex text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 py-2"
+                      >
                         Testimonials
                       </Link>
                     </li>
                     <li className="py-2 my-2 border-t border-b border-gray-200 dark:border-gray-800">
-                      <span className="flex text-gray-600 dark:text-gray-400 py-2">Resources</span>
+                      <span className="flex text-gray-600 dark:text-gray-400 py-2">
+                        Resources
+                      </span>
                       <ul className="pl-4">
                         <li>
                           <Link
