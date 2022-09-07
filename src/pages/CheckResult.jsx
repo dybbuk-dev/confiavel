@@ -8,6 +8,13 @@ import Header from "../partials/Header-Result";
 import PageIllustration from "../partials/PageIllustration";
 import Footer from "../partials/Footer";
 
+import imageSSL from "../images/ssl.png";
+import imageHTTPS from "../images/https.png";
+import imageChrome from "../images/chrome.png";
+import imageValidate from "../images/validate.png";
+import imageDate from "../images/date.png";
+import imageDomain from "../images/domain.png";
+
 function CheckResult() {
   const { clientId } = useParams();
   const navigate = useNavigate();
@@ -160,7 +167,7 @@ function CheckResult() {
                             {result.type === "ssl" ? (
                               <div className="flex">
                                 <img
-                                  src="/src/images/ssl.png"
+                                  src={imageSSL}
                                   className="w-6 mr-2"
                                   alt="SSL"
                                 />
@@ -169,7 +176,7 @@ function CheckResult() {
                             ) : result.type === "https" ? (
                               <div className="flex">
                                 <img
-                                  src="/src/images/https.png"
+                                  src={imageHTTPS}
                                   className="w-6 mr-2"
                                   alt="HTTPS"
                                 />
@@ -178,7 +185,7 @@ function CheckResult() {
                             ) : result.type === "googleSearch" ? (
                               <div className="flex">
                                 <img
-                                  src="/src/images/chrome.png"
+                                  src={imageChrome}
                                   className="w-6 h-6 mr-2"
                                   alt="Google"
                                 />
@@ -187,7 +194,7 @@ function CheckResult() {
                             ) : result.type === "manuallyModerated" ? (
                               <div className="flex">
                                 <img
-                                  src="/src/images/validate.png"
+                                  src={imageValidate}
                                   className="w-6 h-6 mr-2"
                                   alt="Validate"
                                 />
@@ -196,7 +203,7 @@ function CheckResult() {
                             ) : result.type === "whois" ? (
                               <div className="flex">
                                 <img
-                                  src="/src/images/date.png"
+                                  src={imageDate}
                                   className="w-6 h-6 mr-2"
                                   alt="Date"
                                 />
@@ -205,7 +212,7 @@ function CheckResult() {
                             ) : result.type === "suspectTld" ? (
                               <div className="flex">
                                 <img
-                                  src="/src/images/domain.png"
+                                  src={imageDomain}
                                   className="w-6 h-6 mr-2"
                                   alt="Domain"
                                 />

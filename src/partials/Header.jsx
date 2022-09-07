@@ -211,7 +211,7 @@ function Header() {
                 <div className="py-6 pr-4 pl-20">
                   {/* Logo */}
                   <Link to="/" className="flex mb-4" aria-label="Cruip">
-                    <img className="h-7 mt-2 mr-1" src="/src/images/logo.png" alt="Logo" />
+                    <img className="h-7 mt-2 mr-1" src={logo} alt="Logo" />
                     <div className="text-[30px] text-teal-500 font-extrabold">Confiável</div>
                   </Link>
                   {/* Links */}
