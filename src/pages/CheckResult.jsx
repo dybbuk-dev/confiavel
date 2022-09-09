@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoadingScreen from "react-loading-screen";
-import { useAlert } from "react-alert";
 
 import Header from "../partials/Header-Result";
 import PageIllustration from "../partials/PageIllustration";
@@ -27,7 +26,6 @@ function CheckResult() {
   const [isLoading, setIsLoading] = useState(true);
   const indicatorElement = useRef(null);
   const progressElement = useRef(null);
-  const alert = useAlert();
 
   useEffect(() => {
     async function loadData() {

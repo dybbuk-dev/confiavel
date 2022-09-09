@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
 import md5 from "md5";
-import { useAlert } from "react-alert";
 import CheckResult from "../pages/CheckResult";
 import Modal from "../utils/Modal";
 
@@ -12,15 +11,14 @@ import banner from "../images/banner.png";
 function HeroHome() {
   const [url, setUrl] = useState("");
   const navigate = useNavigate();
-  const alert = useAlert();
 
   const checkUrl = async (event) => {
     event.preventDefault();
     if (url === "") {
-      alert.error("Insira o URL de um site para verificar se é confiável.");
+      alert("Insira o URL de um site para verificar se é confiável.");
       return;
     } else if (url.includes(",") || !url.includes(".")) {
-      alert.error("Insira um URL de site válido.");
+      alert("Insira um URL de site válido.");
       return;
     } else {
       const clientId = md5(url).slice(0, 24);
@@ -36,7 +34,7 @@ function HeroHome() {
         );
         navigate(`/site/${clientId}`);
       } catch (err) {
-        alert.error("Insira um URL de site válido.");
+        alert("Insira um URL de site válido.");
       }
     }
   };
